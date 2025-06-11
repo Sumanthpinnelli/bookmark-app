@@ -127,7 +127,7 @@ const App= ()=>{
     const saveData = async (newData)=>
         {
         try{
-                await fetch(`http://localhost:5000/data/${qlid}`,{
+                await fetch(`http://bookmark-app-1.onrender.com/data/${qlid}`,{
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
                     body:JSON.stringify(newData)
