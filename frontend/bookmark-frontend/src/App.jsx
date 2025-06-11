@@ -11,6 +11,8 @@ const App= ()=>{
     const [newFieldValue, setNewFieldValue] = useState("");
     const [showComponentInput, setShowComponentInput] = useState(false);
     const [newComponentName,setNewComponentName] = useState("");
+    const [showJsonEditor, setShowJsonEditor] = useState(false);
+    const [rawJson, setRawJson] = useState("");
 
     useEffect(()=>{
         const savedQlid = localStorage.getItem("Qlid");
@@ -146,9 +148,53 @@ const App= ()=>{
     return(
         <div className='p-6 font-sans bg-gray-50 min-h-screen'>
             <div className='max-w-6xl mx-auto'>
-                <h1 className='text-3xl font-bold mb-6 text-center'>Bookmark Page</h1>
+            <div className='flex items-center justify-between mb-6'>
+                <h1 className='text-3xl font-bold text-center flex-1 text-center'>Bookmark Page</h1>
+                <button
+                  className='bg-yellow-500 text-white px-4 py-2 rounded mb-4'
+                  onClick={() => {
+                    setRawJson(JSON.stringify(data, null, 2));
+                    setShowJsonEditor(true);
+                  }}
+                >
+                  Edit Raw JSON
+                </button>
+                </div>
                 {(
                     <div>
+                        {showJsonEditor && (
+                          <div className='bg-white border rounded p-4 shadow-md mb-6'>
+                            <h2 className='text-xl font-semibold mb-2'>Raw JSON Editor</h2>
+                            <textarea
+                              className='w-full h-64 p-2 border rounded font-mono text-sm'
+                              value={rawJson}
+                              onChange={(e) => setRawJson(e.target.value)}
+                            />
+                            <div className='flex justify-end gap-2 mt-2'>
+                              <button
+                                className='bg-gray-400 text-white px-4 py-2 rounded'
+                                onClick={() => setShowJsonEditor(false)}
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                className='bg-green-600 text-white px-4 py-2 rounded'
+                                onClick={() => {
+                                  try {
+                                    const parsed = JSON.parse(rawJson);
+                                    setData(parsed);
+                                    saveData(parsed); // Save to backend
+                                    setShowJsonEditor(false);
+                                  } catch (err) {
+                                    alert("Invalid JSON format!");
+                                  }
+                                }}
+                              >
+                                Save Changes
+                              </button>
+                            </div>
+                          </div>
+                        )}
                         {showComponentInput ? (
                             <div className='mb-6 flex flex-wrap items-center gap-3 justify-center'>
                                 <input type='text' placeholder='Componet name...' value={newComponentName} onChange={(e)=>setNewComponentName(e.target.value)}
@@ -159,7 +205,7 @@ const App= ()=>{
                             </div>
                         ) : (
                             <div className='mb-6 text-center'>
-                            <button className='bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center justify-center mx-auto' onClick={handleAddComponent}>
+                            <button className='bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center justify-between' onClick={handleAddComponent}>
                                 <Plus size={18} className='mr-2'/>
                                 Add Component
                             </button>
