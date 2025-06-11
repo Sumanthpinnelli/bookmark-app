@@ -8,13 +8,13 @@ const path = require('path');
 app.use(cors());
 app.use(express.json());
 
-const DATA_DIR = path.join(__dirname,"data","data.json");
-if(!fs.existsSync(DATA_DIR)) fs.writeFile(DATA_DIR,'[]')
+const DATA_DIR = path.join(__dirname,"data");
+if(!fs.existsSync(DATA_DIR)) fs.writeFileSync(DATA_DIR,'[]')
 
 app.get('/data/:qlid', (req, res) => {
 
   const userFile = path.join(DATA_DIR,`${req.params.qlid}.json`);
-  const defaultFile = path.join(DATA_DIR,'data.json');
+  const defaultFile = path.join(DATA_DIR,"data.json");
     if (fs.existsSync(userFile))
     {
         const data = fs.readFileSync(userFile);
