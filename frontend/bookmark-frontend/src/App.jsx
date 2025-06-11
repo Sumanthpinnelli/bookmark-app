@@ -33,11 +33,10 @@ const App= ()=>{
         fetchData(savedQlid);    
     },[])
     const fetchData = async (qlid)=>{
-        console.log(qlid);
+      qlid =localStorage.getItem("Qlid");
         if(!qlid) return;
         try{
             const res = await axios.get(`https://bookmark-app-1.onrender.com/data/${qlid}`);
-            console.log(res,res.data);
             setData(res.data);
         }catch(err)
         {
