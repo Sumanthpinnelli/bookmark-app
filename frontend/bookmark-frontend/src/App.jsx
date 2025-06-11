@@ -16,7 +16,7 @@ const App= ()=>{
         const savedQlid = localStorage.getItem("Qlid");
         if(!savedQlid)
         {
-            const userQlid = prompt('Please enter your QLID:');
+            const userQlid = prompt('Please enter your Quick look Id:');
             if(userQlid && userQlid.trim() !== ''){
                 localStorage.setItem("Qlid",userQlid);
                 setQlid(userQlid);  
@@ -36,7 +36,7 @@ const App= ()=>{
         console.log(qlid);
         if(!qlid) return;
         try{
-            const res = await axios.get(`http://localhost:5000/data/${qlid}`);
+            const res = await axios.get(`https://bookmark-app-1.onrender.com/data/${qlid}`);
             console.log(res,res.data);
             setData(res.data);
         }catch(err)
