@@ -8,7 +8,8 @@ const path = require('path');
 app.use(cors());
 app.use(express.json());
 
-const DATA_DIR = path.join(__dirname,"..","data");
+const DATA_DIR = path.join(__dirname,"data","data.json");
+if(!fs.existsSync(DATA_DIR)) fs.writeFile(DATA_DIR,'[]')
 
 app.get('/data/:qlid', (req, res) => {
 
