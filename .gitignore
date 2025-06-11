@@ -1,0 +1,10 @@
+# Frontend
+/frontend/bookmark-frontend/node_modules
+/frontend/bookmark-frontend/build
+
+#backend
+/backend/node_modules
+
+#General
+.env
+*.log
