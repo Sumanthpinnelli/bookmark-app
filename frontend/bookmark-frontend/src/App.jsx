@@ -49,6 +49,12 @@ const App= ()=>{
         setShowComponentInput(true);
         setNewComponentName("");
     }
+    const handleKeyDown = (e,idx,key) =>{
+      if(e.key === "Enter") {
+        e.preventDefault();
+        saveEditedField(idx,key);
+      }
+    }
     const SaveComponent = ()=>{
         if(!newComponentName.trim()) return;
         const updated = [...data,{name:newComponentName.trim()}]
@@ -127,7 +133,7 @@ const App= ()=>{
     const saveData = async (newData)=>
         {
         try{
-                await fetch(`http://bookmark-app-1.onrender.com/data/${qlid}`,{
+                await fetch(`https://bookmark-app-1.onrender.com/data/${qlid}`,{
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
                     body:JSON.stringify(newData)
@@ -167,7 +173,7 @@ const App= ()=>{
                                     {editing[`${idx}-name`] ? (
                                         <div className='mb-4 flex items-center gap-2'>
                                             <input className='border p-2 rounded w-full' value= {temp[`${idx}-name`] || ""}
-                                            onChange={(e)=>handleFieldChange(idx,"name",e.target.value)} />
+                                            onChange={(e)=>handleFieldChange(idx,"name",e.target.value)} onKeyDown={(e)=>handleKeyDown(e,idx,"name")}/>
                                             <button onClick = {()=> saveEditedField(idx,"name")} className='text-green-600 hover:text-green-800'>
                                                 <Save size={18} />
                                             </button>
@@ -190,9 +196,9 @@ const App= ()=>{
                                         {editing[editKey] ? (
                                             <div className='flex flex-col gap-2'>
                                                 <input className='border p-2 rounded w-full' value= {temp[`${editKey}-key`] || ""}
-                                                onChange={(e)=>handleFieldNameChange(idx,key,e.target.value)} />
+                                                onChange={(e)=>handleFieldNameChange(idx,key,e.target.value)}  onKeyDown={(e)=>handleKeyDown(e,idx,key)}/>
                                                 <input className='border p-2 rounded w-full' value= {temp[`${editKey}-value`] || ""}
-                                                onChange={(e)=>handleFieldChange(idx,key,e.target.value)} />
+                                                onChange={(e)=>handleFieldChange(idx,key,e.target.value)} onKeyDown={(e)=>handleKeyDown(e,idx,key)}/>
                                                 <button onClick = {()=> saveEditedField(idx,key)} className='text-green-600
                                                  hover:text-green-800'>
                                                     <Save size={16} />
