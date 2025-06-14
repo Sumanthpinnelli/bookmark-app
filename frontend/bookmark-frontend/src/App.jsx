@@ -13,6 +13,7 @@ const App= ()=>{
     const [newComponentName,setNewComponentName] = useState("");
     const [showJsonEditor, setShowJsonEditor] = useState(false);
     const [rawJson, setRawJson] = useState("");
+    const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
         const savedQlid = localStorage.getItem("Qlid");
@@ -26,10 +27,10 @@ const App= ()=>{
             else {
                 alert('Qlid is required to continue.');
             }
+
         }
         else
         {
-            console.log(savedQlid);
             setQlid(savedQlid);      
         }
         fetchData(savedQlid);    
@@ -37,6 +38,7 @@ const App= ()=>{
     const fetchData = async (qlid)=>{
       qlid =localStorage.getItem("Qlid");
         if(!qlid) return;
+        setLoading(true)
         try{
             const res = await axios.get(`https://bookmark-app-1.onrender.com/data/${qlid}`);
             setData(res.data);
@@ -44,6 +46,9 @@ const App= ()=>{
         {
             console.log(err);
             setData([]);
+        }
+        finally{
+            setLoading(false)
         }
     };
     const handleAddComponent = ()=>{
@@ -160,7 +165,19 @@ const App= ()=>{
                   Edit Raw JSON
                 </button>
                 </div>
-                {(
+                {loading ? (
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+                        {Array.from({length:3}).map((_,i)=>(
+                            <div key={i} className='p-4 bg-gray-100 rounded-lg animate-pulse space-y-4'>
+                                <div className='h-4 bg-gray-300 rounded w-1/2'></div>
+                                <div className='h-3 bg-gray-300 rounded w-3/4'></div>
+                                <div className='h-3 bg-gray-300 rounded w-2/3'></div>
+                                <div className='h-3 bg-gray-300 rounded w-full'></div>
+                            </div>
+                        ))}
+                        </div>
+                ):
+                    (
                     <div>
                         {showJsonEditor && (
                           <div className='bg-white border rounded p-4 shadow-md mb-6'>
