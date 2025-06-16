@@ -40,7 +40,7 @@ const App= ()=>{
         if(!qlid) return;
         setLoading(true)
         try{
-            const res = await axios.get(`https://bookmark-app-1.onrender.com/data/${qlid}`);
+            const res = await axios.get(`http://localhost:5000/data/${qlid}`);
             setData(res.data);
         }catch(err)
         {
@@ -135,11 +135,11 @@ const App= ()=>{
         }));
         saveData(updatedData);
     }
-
+    /*https://bookmark-app-1.onrender.com*/
     const saveData = async (newData)=>
         {
         try{
-                await fetch(`https://bookmark-app-1.onrender.com/data/${qlid}`,{
+                await fetch(`http://localhost:5000/data/${qlid}`,{
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
                     body:JSON.stringify(newData)
