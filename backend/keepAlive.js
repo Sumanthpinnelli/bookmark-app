@@ -1,11 +1,10 @@
+
 require('dotenv').config()
-const axios = require('axios')
 const { default: mongoose } = require('mongoose')
 
 async function keepAlive() {
     try{
-        const URL = process.env.URI
-        const con = await mongoose.createConnection(URL,{
+        const con = await mongoose.createConnection(process.env.URI,{
             useNewUrlParser:true,
             useUnifiedTopology: true
         })
